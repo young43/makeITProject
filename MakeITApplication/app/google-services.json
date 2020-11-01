@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1092371950681",
+    "firebase_url": "https://makeitapplication.firebaseio.com",
+    "project_id": "makeitapplication",
+    "storage_bucket": "makeitapplication.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1092371950681:android:3296b78da47f63847d1548",
+        "android_client_info": {
+          "package_name": "kr.ac.kookmin.makeit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1092371950681-7h6r8qom8g871u5vdoh1m1v5q31flapd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDCqLlhcznROFCY_r6pke5Ob2oRF-K5LGY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1092371950681-7h6r8qom8g871u5vdoh1m1v5q31flapd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
