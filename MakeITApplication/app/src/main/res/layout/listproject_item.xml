@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:paddingTop="20dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/custom_border"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:clickable="true">
+
+        <TextView
+            android:id="@+id/text_project_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="테스트 프로젝트"
+            android:textSize="17dp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/text_project_region"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="서울"
+            android:textSize="14dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#808080"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"/>
+
+        <TextView
+            android:id="@+id/text_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="구독경제 초기 개발 단계 현재 구성원 0명 장소미정 ~모집시까지"
+            android:textSize="14dp"
+            android:maxLines="2"
+            android:singleLine="false"/>
+
+
+
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/temp1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp">
+
+                    <TextView
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        android:text="등록일"
+                        android:textSize="14dp"/>
+
+                    <TextView
+                        android:id="@+id/text_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2020.11.02"
+                        android:textSize="14dp"
+                        android:textColor="#000000"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp">
+
+                    <TextView
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        android:text="모집인원"
+                        android:textSize="14dp"/>
+
+                    <TextView
+                        android:id="@+id/text_memberCnt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="5명"
+                        android:textSize="14dp"
+                        android:textColor="#000000"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_bookmark"
+                android:layout_alignParentRight="true"
+                android:layout_alignBottom="@id/temp1"
+                android:layout_width="70dp"
+                android:layout_height="40dp"
+                android:layout_gravity="bottom|right"
+                android:text="구독"/>
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>

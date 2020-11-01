@@ -9,8 +9,12 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MainActivity extends AppCompatActivity {
+
+    // 파이어베이스 연동
+    public static FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     private BottomNavigationView bottomNavigationView;
 

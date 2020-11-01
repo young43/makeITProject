@@ -7,10 +7,12 @@
     tools:context=".FragmentNotice"
     android:orientation="vertical">
 
+
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:paddingLeft="5dp">
+        android:layout_height="60dp"
+        android:paddingLeft="7dp"
+        android:paddingRight="7dp">
 
         <EditText
             android:id="@+id/edit_query"
@@ -20,9 +22,11 @@
             android:textSize="15dp"/>
 
         <ImageButton
+            android:padding="10dp"
             android:id="@+id/btn_query"
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:scaleType="fitXY"
             android:layout_alignParentRight="true"
             android:gravity="center_vertical"
             android:src="@drawable/baseline_search"
@@ -37,35 +41,42 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
         android:textSize="18dp"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        android:textColor="#000000"/>
 
-
-    <ScrollView
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:fillViewport="true"
-        android:layout_margin="5dp">
+        android:layout_height="match_parent">
 
-        <ListView
-            android:id="@+id/listv_project"
+        <ScrollView
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:layout_margin="5dp">
+
+            <ListView
+                android:id="@+id/listv_project"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:choiceMode="multipleChoice"
+                android:dividerHeight="0px"
+                android:divider="@android:color/transparent"/>
+
+        </ScrollView>
+
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floating_action_button"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:choiceMode="multipleChoice"/>
+            android:layout_gravity="bottom|right"
+            android:layout_margin="16dp"
+            android:src="@drawable/baseline_add_white"
+            android:scaleType="fitXY"
+            android:clickable="true"/>
 
-    </ScrollView>
+    </FrameLayout>
 
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floating_action_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
-        android:layout_margin="16dp"
-        android:src="@drawable/baseline_add"
-        android:scaleType="fitXY"
-        android:clickable="true"
-        android:background="#808080"/>
 
 
 </LinearLayout>
