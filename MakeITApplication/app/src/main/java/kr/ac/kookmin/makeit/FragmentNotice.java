@@ -12,7 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -43,9 +45,7 @@ public class FragmentNotice extends Fragment {
     ListView listview;
     EditText editSearch;
 
-
     private ArrayList<ListItemProject> arrayData = new ArrayList<>();
-
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -80,17 +80,13 @@ public class FragmentNotice extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-
-
-
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_notice, container, false);
+        final ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_notice, container, false);
 
         // ListView 데이터 불러오기
         adapter = new ListViewProjectAdapter(getActivity(), android.R.layout.simple_list_item_multiple_choice);
@@ -107,6 +103,12 @@ public class FragmentNotice extends Fragment {
             public void onClick(View v) {
                 String text = editSearch.getText().toString();
 
+                // 검색결과 없음은 일단 GONE처리함.
+                TextView resultSearch = (TextView) rootView.findViewById(R.id.text_result_search);
+                if(resultSearch.getVisibility() == View.VISIBLE){
+                    resultSearch.setVisibility(View.GONE);
+                }
+
                 // 아무것도 입력하지 않았을 때는 원래 화면을 보여줌.
                 if(text.length() == 0) {
                     adapter.clear();
@@ -119,8 +121,17 @@ public class FragmentNotice extends Fragment {
                 // 제목이나 내용 위주의 검색을 수행함.
                 ArrayList<ListItemProject> tmpData = new ArrayList<>();
                 for(ListItemProject item : arrayData){
-                    if(item.getTitle().contains(text) || item.getContent().contains(text))
-                        tmpData.add(item);
+                    // 검색 결과가 0일 때에 대한 예외처리
+                    if(item != null){
+                        if(item.getTitle().contains(text) || item.getContent().contains(text))
+                            tmpData.add(item);
+                    }
+
+                }
+
+                // 검색결과가 없으면, 없다고 표시해줌.
+                if(tmpData.size() == 0){
+                    resultSearch.setVisibility(View.VISIBLE);
                 }
 
                 // ListView update
@@ -141,7 +152,6 @@ public class FragmentNotice extends Fragment {
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 arrayData.clear();
                 if (task.isSuccessful()) {
-
                     // 각 row(=document)를 가져오고, getData를 통해 column 데이터를 가져오게 된다.
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         ListItemProject item = new ListItemProject((HashMap)document.getData());
@@ -150,6 +160,8 @@ public class FragmentNotice extends Fragment {
                             arrayData.add(item);
 
                     }
+                    // 마지막에 null을 add함(빈공간 마련)
+                    arrayData.add(null);
 
                     // ListView update
                     adapter.clear();
@@ -172,4 +184,7 @@ public class FragmentNotice extends Fragment {
         adapter.notifyDataSetChanged();
         listview.setAdapter(adapter);
     }
+
+
+
 }
