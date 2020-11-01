@@ -75,16 +75,15 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
         android:fillViewport="true"
         android:layout_margin="5dp">
 
         <ListView
-            android:id="@+id/listv_project"
+            android:id="@+id/listv_myproject"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:choiceMode="multipleChoice"/>
+            android:layout_height="wrap_content"/>
 
     </ScrollView>
 
