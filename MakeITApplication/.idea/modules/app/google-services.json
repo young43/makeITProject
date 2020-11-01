@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "808994683605",
+    "firebase_url": "https://makeitapplication-a99c8.firebaseio.com",
+    "project_id": "makeitapplication-a99c8",
+    "storage_bucket": "makeitapplication-a99c8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:808994683605:android:3d09abff4ad8e65cc3805c",
+        "android_client_info": {
+          "package_name": "kr.ac.kookmin.makeit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "808994683605-otjrn71b66jg9enr02b28thf6ccfdpcl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "kr.ac.kookmin.makeit",
+            "certificate_hash": "4fb01d8c664f87964d510f3a9b64b6c8edd5e822"
+          }
+        },
+        {
+          "client_id": "808994683605-uqrdjs6k8lcne7trlllv6rbm0rlt5qei.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCkbvZYF9p6_VY9dcefumqxIw9_6Ehek8w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "808994683605-uqrdjs6k8lcne7trlllv6rbm0rlt5qei.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
