@@ -6,6 +6,7 @@ import com.google.firebase.database.IgnoreExtraProperties;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,7 +16,9 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -60,8 +63,6 @@ public class ListViewProjectAdapter extends ArrayAdapter {
         TextView dateTextView = (TextView) convertView.findViewById(R.id.text_date);
         TextView memberCntTextView = (TextView) convertView.findViewById(R.id.text_memberCnt);
 
-
-
         // Data Set(listViewItemList)에서 position에 위치한 데이터 참조 획득
         final ListItemProject listViewItem = listViewItemList.get(position);
 
@@ -72,9 +73,24 @@ public class ListViewProjectAdapter extends ArrayAdapter {
         dateTextView.setText(listViewItem.getTimestamp().toString());
         memberCntTextView.setText(listViewItem.getMemberCnt()+"");  // Integer -> String형변환
 
-//        titleTextView.setText(listViewItem.getTitle());
-//        descTextView.setText(listViewItem.getDesc());
-//        checkBox.setChecked(listViewItem.isChecked());
+
+        // 레이아웃 전체를 가져옴(clickable)
+        LinearLayout layout = (LinearLayout) convertView.findViewById(R.id.list_item_layout);
+        layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final ListItemProject listItem = listViewItemList.get(position);
+                HashMap<String, Object> map = (HashMap)listItem.toMap();
+
+                // 프로젝트 자세한 내용을 보기위해 ProjectInfoActivity 액티비티로 전환
+                // map데이터 전체를 보냄.
+                Intent intent = new Intent(context, ProjectInfoActivity.class);
+                intent.putExtra("projectInfo", map);
+                context.startActivity(intent);
+
+            }
+        });
+
 
 
 

@@ -8,6 +8,7 @@
     android:paddingTop="20dp">
 
     <LinearLayout
+        android:id="@+id/list_item_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/custom_border"
@@ -45,9 +46,6 @@
             android:textSize="14dp"
             android:maxLines="2"
             android:singleLine="false"/>
-
-
-
 
 
         <RelativeLayout
