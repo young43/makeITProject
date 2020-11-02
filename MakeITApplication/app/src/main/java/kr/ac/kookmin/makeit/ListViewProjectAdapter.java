@@ -29,6 +29,14 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+
+/**
+ * @file ListViewProjectAdapter
+ * @desc 프로젝트 리스트 화면(FragmentNotice)에서 ListView에 연결하기위한 Adapter클래스
+ * @auther 윤서영(20191633)
+ * @date 2020-11-01
+ */
+
 public class ListViewProjectAdapter extends ArrayAdapter {
 
     private ArrayList<ListItemProject> listViewItemList = new ArrayList<ListItemProject>() ;
@@ -63,15 +71,6 @@ public class ListViewProjectAdapter extends ArrayAdapter {
         TextView dateTextView = (TextView) convertView.findViewById(R.id.text_date);
         TextView memberCntTextView = (TextView) convertView.findViewById(R.id.text_memberCnt);
 
-        // Data Set(listViewItemList)에서 position에 위치한 데이터 참조 획득
-        final ListItemProject listViewItem = listViewItemList.get(position);
-
-        // 아이템 내 각 위젯에 데이터 반영
-        titleTextView.setText(listViewItem.getTitle());
-        regionTextView.setText(listViewItem.getRegion());
-        contentTextView.setText(listViewItem.getContent());
-        dateTextView.setText(listViewItem.getTimestamp().toString());
-        memberCntTextView.setText(listViewItem.getMemberCnt()+"");  // Integer -> String형변환
 
 
         // 레이아웃 전체를 가져옴(clickable)
@@ -90,6 +89,17 @@ public class ListViewProjectAdapter extends ArrayAdapter {
 
             }
         });
+
+
+        // Data Set(listViewItemList)에서 position에 위치한 데이터 참조 획득
+        final ListItemProject listViewItem = listViewItemList.get(position);
+
+        // 아이템 내 각 위젯에 데이터 반영
+        titleTextView.setText(listViewItem.getTitle());
+        regionTextView.setText(listViewItem.getRegion());
+        contentTextView.setText(listViewItem.getContent());
+        dateTextView.setText(listViewItem.getTimestamp().toString());
+        memberCntTextView.setText(listViewItem.getMemberCnt()+"");  // Integer -> String형변환
 
 
 
