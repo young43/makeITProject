@@ -35,9 +35,10 @@ import java.util.Map;
 import static kr.ac.kookmin.makeit.MainActivity.db;
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link FragmentNotice#newInstance} factory method to
- * create an instance of this fragment.
+ * @file FragmentNotice
+ * @desc 현재 팀원 모집중인 프로젝트 리스트를 보여주는 화면
+ * @auther 윤서영(20191633)
+ * @date 2020-11-01
  */
 public class FragmentNotice extends Fragment {
 
@@ -140,6 +141,10 @@ public class FragmentNotice extends Fragment {
                 updateListView();
             }
         });
+
+
+        // Floating버튼 이벤트 추가(add project)
+
 
 
         // Firebase 연동
