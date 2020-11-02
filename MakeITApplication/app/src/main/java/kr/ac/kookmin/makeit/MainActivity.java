@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        // call Login Activity(로그인 필요)
+        // 기존에 로그인된 정보가 없으면 Login화면으로 이동
         if(SaveSharedPreference.getUserName(this).length() == 0) {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);

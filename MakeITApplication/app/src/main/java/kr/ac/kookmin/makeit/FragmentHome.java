@@ -1,12 +1,12 @@
 package kr.ac.kookmin.makeit;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import androidx.fragment.app.Fragment;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -52,6 +52,13 @@ public class FragmentHome extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        final ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_home, container, false);
+
+        // 현재 로그인된 ID로 표시
+        String userId = SaveSharedPreference.getUserName(getContext());
+        TextView textUser = (TextView) rootView.findViewById(R.id.text_username);
+        textUser.setText(userId);
+
+        return rootView;
     }
 }
