@@ -10,6 +10,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 
+
+/**
+ * @file ListItemProject
+ * @desc 프로젝트 리스트 화면(FragmentNotice)에서 각 Item에 대한 데이터 클래스.
+ * @auther 윤서영(20191633)
+ * @date 2020-11-01
+ */
+
 // 현재 존재하는 프로젝트 리스트에 대한 item 클래스
 // 파이어베이스 연동을 위해 dao형태로도 사용됨.
 public class ListItemProject {

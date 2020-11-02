@@ -11,6 +11,14 @@ import android.view.MenuItem;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+
+/**
+ * @file MainActivity
+ * @desc 로그인 후 보여지는 메인 화면(Activity)
+ * @auther 윤서영(20191633)
+ * @date 2020-11-01
+ */
+
 public class MainActivity extends AppCompatActivity {
 
     // 파이어베이스 연동

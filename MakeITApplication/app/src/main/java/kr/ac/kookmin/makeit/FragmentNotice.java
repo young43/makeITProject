@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -38,7 +39,7 @@ import static kr.ac.kookmin.makeit.MainActivity.db;
 
 /**
  * @file FragmentNotice
- * @desc 현재 팀원 모집중인 프로젝트 리스트를 보여주는 화면
+ * @desc 현재 팀원 모집중인 프로젝트 리스트를 보여주는 화면(프래그먼트)
  * @auther 윤서영(20191633)
  * @date 2020-11-01
  */
@@ -146,7 +147,7 @@ public class FragmentNotice extends Fragment {
 
 
         // Floating버튼 이벤트 추가(add project)
-        Button btnAdd = (Button) rootView.findViewById(R.id.btn_add_project);
+        FloatingActionButton btnAdd = (FloatingActionButton) rootView.findViewById(R.id.btn_add_project);
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

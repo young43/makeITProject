@@ -29,6 +29,14 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+
+/**
+ * @file ListViewProjectAdapter
+ * @desc 프로젝트 리스트 화면(FragmentNotice)에서 ListView에 연결하기위한 Adapter클래스
+ * @auther 윤서영(20191633)
+ * @date 2020-11-01
+ */
+
 public class ListViewProjectAdapter extends ArrayAdapter {
 
     private ArrayList<ListItemProject> listViewItemList = new ArrayList<ListItemProject>() ;
