@@ -83,7 +83,22 @@ public class FragmentNotice extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+    }
 
+    @Override
+    public void startActivityForResult(Intent intent, int requestCode) {
+        if(requestCode == 1){
+            Toast.makeText(getContext(), "test", Toast.LENGTH_SHORT).show();
+            selectQueryOnFirebase();
+        }
+        super.startActivityForResult(intent, requestCode);
+    }
+
+    // 프로젝트 등록 후에 파이어베이스에서 프로젝트 리스트 재 조회 -> ListView 새로고침 효과
+    @Override
+    public void onResume() {
+        selectQueryOnFirebase();
+        super.onResume();
     }
 
     @Override
@@ -156,10 +171,16 @@ public class FragmentNotice extends Fragment {
             }
         });
 
+        selectQueryOnFirebase();
 
+        return rootView;
+    }
+
+    public void selectQueryOnFirebase(){
         // Firebase 연동
         // 프로젝트 리스트를 긁어서 보여준다.
         // Collection(=DB) -> Document(=row)으로 구성되어있으며, column은 getData로 Map형태로 가져올 수 있다.
+
         CollectionReference collRef = db.collection("project_list");
         Query query = collRef.orderBy("upload_date", Query.Direction.DESCENDING);   // 내림차순 정렬(최신순으로 정렬한다)
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -173,25 +194,18 @@ public class FragmentNotice extends Fragment {
                         // 진행 중인 프로젝트만 보여줄 수 있게 설정.
                         if(!item.isFinished())
                             arrayData.add(item);
-
                     }
-                    // 마지막에 null을 add함(빈공간 마련)
-                    arrayData.add(null);
 
                     // ListView update
                     adapter.clear();
-                    adapter.addAll(arrayData);
+                    adapter.setAll(arrayData);
                     updateListView();
 
-                    // Toast.makeText(getContext(), adapter.getCount()+"", Toast.LENGTH_LONG).show();
                 } else {
                     Log.d("notice", "get failed with ", task.getException());
                 }
             }
         });
-
-
-        return rootView;
     }
 
 
@@ -199,7 +213,5 @@ public class FragmentNotice extends Fragment {
         adapter.notifyDataSetChanged();
         listview.setAdapter(adapter);
     }
-
-
 
 }

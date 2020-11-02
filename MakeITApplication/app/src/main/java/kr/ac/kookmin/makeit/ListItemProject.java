@@ -4,9 +4,12 @@ import android.graphics.drawable.Drawable;
 
 import com.google.firebase.Timestamp;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 
@@ -21,7 +24,6 @@ import java.util.Map;
 // 현재 존재하는 프로젝트 리스트에 대한 item 클래스
 // 파이어베이스 연동을 위해 dao형태로도 사용됨.
 public class ListItemProject {
-    private long id;    // 고유 식별자
     private String title;
     private String content;
     private String region;
@@ -37,15 +39,26 @@ public class ListItemProject {
     public ListItemProject(){
     }
 
+    public ListItemProject(String title, String content, String region, long memberCnt, String email, String phoneNumber, boolean isFinished, String pm_id, String timestamp){
+        this.title = title;
+        this.content = content;
+        this.region = region;
+        this.memberCnt = memberCnt;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.isFinished = isFinished;
+        this.pm_id = pm_id;
+        this.timestamp = timestamp;
+    }
+
 
     public ListItemProject(HashMap<String, Object> map) {
-        this.id = (Long)map.get("id");
         this.title = (String)map.get("title");
         this.content = (String)map.get("content");
         this.region = (String)map.get("region");
         this.memberCnt = (Long) map.get("person");
         this.email = (String)map.get("email");
-        this.phoneNumber = (String)map.get("phoneNumber");
+        this.phoneNumber = (String)map.get("phonenumber");
         this.isFinished = (Boolean)map.get("finish");
         this.pm_id = (String)map.get("pm_id");
 
@@ -58,27 +71,25 @@ public class ListItemProject {
     // 파이어베이스 연동을 위해 dao 형태로 만들어줌
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
-        result.put("id", id);
         result.put("title", title);
         result.put("content", content);
         result.put("region", region);
-        result.put("memberCnt", memberCnt);
+        result.put("person", memberCnt);
         result.put("email", email);
-        result.put("phoneNumber", phoneNumber);
-        result.put("timestamp", timestamp);
+        result.put("phonenumber", phoneNumber);
+        result.put("upload_date", timestamp);
         result.put("finish", isFinished);
         result.put("pm_id", pm_id);
 
         return result;
     }
 
-    public long getId() {
-        return id;
+    public Date convertTimeStamp(String time) throws ParseException {
+        SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date convertDate = transFormat.parse(time);
+        return convertDate;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public String getTitle() {
         return title;
