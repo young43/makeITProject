@@ -10,7 +10,7 @@
         android:id="@+id/action_notice"
         android:enabled="true"
         android:icon="@drawable/baseline_description"
-        android:title="NOTICE"/>
+        android:title="공고"/>
 
 
     <item
