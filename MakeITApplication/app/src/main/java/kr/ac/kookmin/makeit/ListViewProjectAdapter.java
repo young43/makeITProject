@@ -1,10 +1,5 @@
 package kr.ac.kookmin.makeit;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.IgnoreExtraProperties;
-
-
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -13,21 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Map;
 
 
 /**
@@ -138,7 +125,7 @@ public class ListViewProjectAdapter extends ArrayAdapter {
     }
 
     public void setAll(ArrayList<ListItemProject> items){
-        listViewItemList = (ArrayList<ListItemProject>)items.clone();
+        listViewItemList = (ArrayList<ListItemProject>)items.clone();   // 깊은 복사
     }
 
     public void removeItem(int position){

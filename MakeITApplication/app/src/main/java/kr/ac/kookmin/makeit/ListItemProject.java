@@ -1,15 +1,11 @@
 package kr.ac.kookmin.makeit;
 
-import android.graphics.drawable.Drawable;
-
 import com.google.firebase.Timestamp;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 
@@ -32,7 +28,7 @@ public class ListItemProject {
     private String phoneNumber;
     private String timestamp;
     private boolean isFinished;     // 프로젝트가 끝났는 지 여부
-    private String pm_id;           // 프로젝트 매니저 아이디
+    private String pm_id;           // 프로젝트 매니저 아이디(=프로젝트를 등록한 사람 아이디)
 
 
 
