@@ -1,5 +1,6 @@
 package kr.ac.kookmin.makeit;
 
+import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
 
@@ -10,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListAdapter;
@@ -144,7 +146,14 @@ public class FragmentNotice extends Fragment {
 
 
         // Floating버튼 이벤트 추가(add project)
-
+        Button btnAdd = (Button) rootView.findViewById(R.id.btn_add_project);
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), RegisterProjectActivity.class);
+                startActivity(intent);
+            }
+        });
 
 
         // Firebase 연동
