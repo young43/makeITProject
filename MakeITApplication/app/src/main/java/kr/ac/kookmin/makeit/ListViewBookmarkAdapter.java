@@ -25,20 +25,20 @@ import static kr.ac.kookmin.makeit.MainActivity.db;
 
 
 /**
- * @file ListViewProjectAdapter
- * @desc 프로젝트 리스트 화면(FragmentNotice)에서 ListView에 연결하기위한 Adapter클래스
+ * @file ListViewBookmarkAdapter
+ * @desc 찜목록 리스트 화면(BookmarkActivity)에서 ListView에 연결하기위한 Adapter클래스
  * @auther 윤서영(20191633)
- * @date 2020-11-01
+ * @date 2020-11-03
  */
 
-public class ListViewProjectAdapter extends ArrayAdapter {
+public class ListViewBookmarkAdapter extends ArrayAdapter {
     Button btnBookmark;
 
     private String id, project_id;
 
     private ArrayList<ListItemProject> listViewItemList = new ArrayList<ListItemProject>() ;
 
-    public ListViewProjectAdapter(@NonNull Context context, int resource) {
+    public ListViewBookmarkAdapter(@NonNull Context context, int resource) {
         super(context, resource);
     }
 
@@ -69,7 +69,6 @@ public class ListViewProjectAdapter extends ArrayAdapter {
         TextView memberCntTextView = (TextView) convertView.findViewById(R.id.text_memberCnt);
 
 
-
         // 레이아웃 전체를 가져옴(clickable)
         LinearLayout layout = (LinearLayout) convertView.findViewById(R.id.list_item_layout);
         layout.setOnClickListener(new View.OnClickListener() {
@@ -98,27 +97,24 @@ public class ListViewProjectAdapter extends ArrayAdapter {
         dateTextView.setText(listViewItem.getTimestamp().toString());
         memberCntTextView.setText(listViewItem.getMemberCnt()+"");  // Integer -> String형변환
 
-
         btnBookmark = (Button) convertView.findViewById(R.id.btn_bookmark);
 
         // 찜 db에 넣을 데이터 형성
         id = SaveSharedPreference.getUserName(getContext());
 
-        // 찜하기 버튼 이벤트 설정
+        // 찜하기 버튼 이벤트 설정(false시, 목록에서 삭제됨)
         btnBookmark.setSelected(listViewItem.isSelected());
         btnBookmark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View button) {
                 ListItemProject item = listViewItemList.get(position);
+                removeItem(position);
                 project_id = item.getProject_id();
 
-                boolean flag = !button.isSelected();
-                button.setSelected(flag);
-                item.setSelected(flag);
 
                 Map<String, Object> data = new HashMap<>();
                 data.put("id", id);
-                data.put(project_id, flag);
+                data.put(project_id, false);
 
                 // 찜 목록 데이터 업데이트
                 db.collection("bookmark").document(id)
@@ -135,6 +131,9 @@ public class ListViewProjectAdapter extends ArrayAdapter {
                             Log.w("bookmark", "Error update data", e);
                         }
                     });
+
+
+                notifyDataSetChanged();
             }
         });
 

@@ -1,9 +1,11 @@
 package kr.ac.kookmin.makeit;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -58,6 +60,17 @@ public class FragmentHome extends Fragment {
         String userId = SaveSharedPreference.getUserName(getContext());
         TextView textUser = (TextView) rootView.findViewById(R.id.text_username);
         textUser.setText(userId);
+
+        // 찜 목록 리스트 보여주기(클릭 이벤트 추가)
+        Button btnBookmark = (Button) rootView.findViewById(R.id.btn_bookmark_list);
+        btnBookmark.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 찜목록 액티비티로 전환
+                Intent intent = new Intent(getContext(), BookmarkActivity.class);
+                startActivity(intent);
+            }
+        });
 
         return rootView;
     }
