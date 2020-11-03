@@ -2,19 +2,26 @@ package kr.ac.kookmin.makeit;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.SetOptions;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
+
+import static kr.ac.kookmin.makeit.MainActivity.db;
 
 
 /**
@@ -25,6 +32,9 @@ import java.util.HashMap;
  */
 
 public class ListViewProjectAdapter extends ArrayAdapter {
+    Button btnBookmark;
+
+    private String id, project_id;
 
     private ArrayList<ListItemProject> listViewItemList = new ArrayList<ListItemProject>() ;
 
@@ -89,7 +99,45 @@ public class ListViewProjectAdapter extends ArrayAdapter {
         memberCntTextView.setText(listViewItem.getMemberCnt()+"");  // Integer -> String형변환
 
 
+        btnBookmark = (Button) convertView.findViewById(R.id.btn_bookmark);
 
+        // 찜 db에 넣을 데이터 형성
+        id = SaveSharedPreference.getUserName(getContext());
+
+        // 찜하기 버튼 이벤트 설정
+        btnBookmark.setSelected(listViewItem.isSelected());
+        btnBookmark.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View button) {
+                ListItemProject item = listViewItemList.get(position);
+                project_id = item.getProject_id();
+
+                boolean flag = !button.isSelected();
+                button.setSelected(flag);
+                item.setSelected(flag);
+
+                Map<String, Object> data = new HashMap<>();
+                data.put("id", id);
+                data.put(project_id, flag);
+
+                // 찜 목록 데이터 업데이트
+                db.collection("bookmark").document(id)
+                    .set(data, SetOptions.merge())  // merge옵션으로 update 및 추가 가능
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.e("bookmark", "Success update data on firebase");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w("bookmark", "Error update data", e);
+                        }
+                    });
+
+            }
+        });
 
         return convertView;
     }
@@ -106,17 +154,6 @@ public class ListViewProjectAdapter extends ArrayAdapter {
         return listViewItemList.get(position) ;
     }
 
-    // 아이템 데이터 추가를 위한 함수. 개발자가 원하는대로 작성 가능.
-    public void addItem(Drawable icon, String title, String desc) {
-        ListItemProject item = new ListItemProject();
-
-//        item.setIcon(icon);
-//        item.setTitle(title);
-//        item.setDesc(desc);
-//        item.setChecked(false);
-
-        listViewItemList.add(item);
-    }
 
     public void addAll(ArrayList<ListItemProject> items) {
         listViewItemList.addAll(items);
@@ -132,4 +169,5 @@ public class ListViewProjectAdapter extends ArrayAdapter {
         Log.e("testActivity", listViewItemList.get(position).getTitle());
         listViewItemList.remove(position);
     }
+
 }

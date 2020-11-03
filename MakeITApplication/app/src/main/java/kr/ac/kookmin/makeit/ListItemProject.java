@@ -29,11 +29,11 @@ public class ListItemProject {
     private String timestamp;
     private boolean isFinished;     // 프로젝트가 끝났는 지 여부
     private String pm_id;           // 프로젝트 매니저 아이디(=프로젝트를 등록한 사람 아이디)
+    private String project_id;
 
+    private boolean selected;       // 찜버튼
 
-
-    public ListItemProject(){
-    }
+    public ListItemProject(){}
 
     public ListItemProject(String title, String content, String region, long memberCnt, String email, String phoneNumber, boolean isFinished, String pm_id, String timestamp){
         this.title = title;
@@ -45,6 +45,7 @@ public class ListItemProject {
         this.isFinished = isFinished;
         this.pm_id = pm_id;
         this.timestamp = timestamp;
+        this.selected = false;
     }
 
 
@@ -62,6 +63,7 @@ public class ListItemProject {
         Date tmpDate = ((Timestamp)map.get("upload_date")).toDate();
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         this.timestamp =  format.format(tmpDate);
+        this.selected = false;
     }
 
     // 파이어베이스 연동을 위해 dao 형태로 만들어줌
@@ -76,6 +78,7 @@ public class ListItemProject {
         result.put("upload_date", timestamp);
         result.put("finish", isFinished);
         result.put("pm_id", pm_id);
+        result.put("project_id", project_id);
 
         return result;
     }
@@ -86,6 +89,13 @@ public class ListItemProject {
         return convertDate;
     }
 
+    public String getProject_id() {
+        return project_id;
+    }
+
+    public void setProject_id(String project_id) {
+        this.project_id = project_id;
+    }
 
     public String getTitle() {
         return title;
@@ -157,5 +167,13 @@ public class ListItemProject {
 
     public void setPm_id(String pm_id) {
         this.pm_id = pm_id;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 }

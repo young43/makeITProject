@@ -19,6 +19,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -41,6 +43,10 @@ public class FragmentNotice extends Fragment {
     EditText editSearch;
 
     private ArrayList<ListItemProject> arrayData = new ArrayList<>();
+
+    public interface MyDataCallback {
+        void onCallback();
+    }
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -80,7 +86,12 @@ public class FragmentNotice extends Fragment {
     public void startActivityForResult(Intent intent, int requestCode) {
         if(requestCode == 1){
             Toast.makeText(getContext(), "test", Toast.LENGTH_SHORT).show();
-            selectQueryOnFirebase();
+            selectQueryOnFirebase(new MyDataCallback() {
+                @Override
+                public void onCallback() {
+                    selectBookmarkOnFirebase();
+                }
+            });
         }
         super.startActivityForResult(intent, requestCode);
     }
@@ -88,7 +99,12 @@ public class FragmentNotice extends Fragment {
     // 프로젝트 등록 후에 파이어베이스에서 프로젝트 리스트 재 조회 -> ListView 새로고침 효과
     @Override
     public void onResume() {
-        selectQueryOnFirebase();
+        selectQueryOnFirebase(new MyDataCallback() {
+            @Override
+            public void onCallback() {
+                selectBookmarkOnFirebase();
+            }
+        });
         super.onResume();
     }
 
@@ -164,12 +180,19 @@ public class FragmentNotice extends Fragment {
             }
         });
 
-        selectQueryOnFirebase();
+        // 프로젝트 데이터를 먼저 가져온 후에 찜 표시.
+        selectQueryOnFirebase(new MyDataCallback() {
+            @Override
+            public void onCallback() {
+                selectBookmarkOnFirebase();
+            }
+        });
+
 
         return rootView;
     }
 
-    public void selectQueryOnFirebase(){
+    public void selectQueryOnFirebase(final MyDataCallback callback){
         // Firebase 연동
         // 프로젝트 리스트를 긁어서 보여준다.
         // Collection(=DB) -> Document(=row)으로 구성되어있으며, column은 getData로 Map형태로 가져올 수 있다.
@@ -184,6 +207,8 @@ public class FragmentNotice extends Fragment {
                     // 각 row(=document)를 가져오고, getData를 통해 column 데이터를 가져오게 된다.
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         ListItemProject item = new ListItemProject((HashMap)document.getData());
+                        item.setProject_id(document.getId());   // 고유 document id는 primary key의 역할을 수행함.
+
                         // 진행 중인 프로젝트만 보여줄 수 있게 설정.
                         if(!item.isFinished())
                             arrayData.add(item);
@@ -197,8 +222,50 @@ public class FragmentNotice extends Fragment {
                 } else {
                     Log.d("notice", "get failed with ", task.getException());
                 }
+
+                callback.onCallback();
             }
         });
+
+    }
+
+
+    public void selectBookmarkOnFirebase() {
+
+        for(int i=0; i<adapter.getCount(); i++){
+            final ListItemProject item = (ListItemProject) adapter.getItem(i);
+            final String project_id = item.getProject_id();
+            final String id = SaveSharedPreference.getUserName(getContext());
+
+            // Firebase 연동
+            // 찜 리스트를 긁어서 보여준다.
+            // Collection(=DB) -> Document(=row)으로 구성되어있으며, column은 getData로 Map형태로 가져올 수 있다.
+            DocumentReference docRef = db.collection("bookmark").document(id);
+            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            BookmarkInfo mark = new BookmarkInfo((HashMap) document.getData());
+                            HashMap<String, Boolean> projectMap = mark.getProjectMap();
+
+                            if (mark.getId().equals(id) && projectMap.containsKey(project_id)) {
+                                item.setSelected(projectMap.get(project_id));     // 버튼 찜 설정
+                            }
+                        }
+                        updateListView();
+
+                    } else {
+                        Log.d("bookmark", "get failed with ", task.getException());
+                    }
+
+
+                }
+            });
+
+        }
+
     }
 
 

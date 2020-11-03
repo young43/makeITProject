@@ -3,7 +3,12 @@ package kr.ac.kookmin.makeit;
 import java.util.HashMap;
 import java.util.Map;
 
-// 회원정보 클래스
+/**
+ * @file UserInfo
+ * @desc 회원정보 클래스
+ * @auther 윤서영(20191633)
+ * @date 2020-11-02
+ */
 public class UserInfo {
     private String id;
     private String passwd;
