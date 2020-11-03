@@ -2,7 +2,6 @@ package kr.ac.kookmin.makeit;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -13,7 +12,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.HashMap;
@@ -72,31 +72,22 @@ public class LoginActivity extends AppCompatActivity {
         // 회원정보 리스트를 긁어서 보여준다.
         // Collection(=DB) -> Document(=row)으로 구성되어있으며, column은 getData로 Map형태로 가져올 수 있다.
         CollectionReference collRef = db.collection("member");
+        Query query = collRef.whereEqualTo("id", id);
+        query.get()
+            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    DocumentSnapshot data = task.getResult().getDocuments().get(0);
+                    UserInfo item = new UserInfo((HashMap) data.getData());
+                    int length = task.getResult().size();
+                    memberResult = 1;
 
-        collRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                memberResult = -1;
+                    if(length == 0) memberResult = -1;
+                    else if(!item.getPasswd().equals(pw)) memberResult = -2;
 
-                if (task.isSuccessful()) {
-                    // 각 row(=document)를 가져오고, getData를 통해 column 데이터를 가져오게 된다.
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        UserInfo item = new UserInfo((HashMap)document.getData());
-
-                        if(item.getId().equals(id) && item.getPasswd().equals(pw)){
-                            memberResult = 1;       // 정상로그인
-                            break;
-                        }else if(item.getId().equals(id) && !item.getPasswd().equals(pw)){
-                            memberResult = -2;      // 비밀번호가 틀림
-                            break;
-                        }
-                    }
-
-                } else {
-                    Log.d("member", "get failed with ", task.getException());
                 }
-            }
-        });
+            });
+
 
 
     }
