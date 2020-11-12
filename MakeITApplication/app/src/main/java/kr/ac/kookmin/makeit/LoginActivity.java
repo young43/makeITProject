@@ -22,7 +22,7 @@ import static kr.ac.kookmin.makeit.MainActivity.db;
 
 public class LoginActivity extends AppCompatActivity {
     int memberResult = 0;
-    Button btnLogin, btnJoin;
+    Button btnLogin, btnjoin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +33,9 @@ public class LoginActivity extends AppCompatActivity {
         // SaveSharedPreference.setUserName(this, editId.getText().toString());
 
         btnLogin = (Button) findViewById(R.id.btn_login);
+        btnjoin = (Button) findViewById(R.id.btn_join);
+
+
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,6 +61,16 @@ public class LoginActivity extends AppCompatActivity {
                         finish();
                 }
 
+            }
+        });
+
+        btnjoin.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                //회원 가입 페이지로 이동
+                Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
 
