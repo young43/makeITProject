@@ -16,9 +16,12 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.SetOptions;
 
 import java.util.ArrayList;
@@ -26,7 +29,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static kr.ac.kookmin.makeit.MainActivity.db;
-
 
 /**
  * @file ListViewProjectAdapter
@@ -99,14 +101,13 @@ public class ListViewProjectAdapter extends ArrayAdapter {
                 final String project_id = item.getProject_id();
 
 
+
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 builder.setTitle("프로젝트 삭제");
                 builder.setMessage("프로젝트를 삭제하시겠습니까?");
                 builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 // 현재 로그인 사용자와 PM_ID가 같은 지 확인.
-                                Toast.makeText(getContext(), pm_id+" "+currentId, Toast.LENGTH_SHORT).show();
-
                                 if(currentId.equals(pm_id)){
                                     db.collection("project_list").document(project_id)
                                         .delete()
@@ -114,6 +115,22 @@ public class ListViewProjectAdapter extends ArrayAdapter {
                                             @Override
                                             public void onSuccess(Void aVoid) {
                                                 Log.d("delete", "DocumentSnapshot successfully deleted!");
+                                                listViewItemList.remove(item);
+                                                notifyDataSetChanged();
+
+
+                                                // 북마크 목록에서도 제거해줘야함. (안그러면 에러발생)
+                                                Map<String, Object> updates = new HashMap<>();
+                                                updates.put(project_id, FieldValue.delete());
+
+                                                db.collection("bookmark").document(currentId)
+                                                    .update(updates)
+                                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                            Log.d("delete", "DocumentSnapshot successfully deleted!");
+                                                        }
+                                                    });
                                             }
                                         })
                                         .addOnFailureListener(new OnFailureListener() {
@@ -123,11 +140,11 @@ public class ListViewProjectAdapter extends ArrayAdapter {
                                             }
                                         });
 
+
+
                                 }else{
                                     Toast.makeText(getContext(),"프로젝트 주인이 아닙니다!(삭제불가)",Toast.LENGTH_LONG).show();
                                 }
-
-
                             }
                         });
                 builder.setNegativeButton("아니오", null);
