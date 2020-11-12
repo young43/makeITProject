@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -38,6 +39,7 @@ import static kr.ac.kookmin.makeit.MainActivity.db;
  */
 
 public class ListViewProjectAdapter extends ArrayAdapter {
+    Fragment currentFragment;
     Button btnBookmark;
 
     private String id, project_id;
@@ -46,6 +48,11 @@ public class ListViewProjectAdapter extends ArrayAdapter {
 
     public ListViewProjectAdapter(@NonNull Context context, int resource) {
         super(context, resource);
+    }
+
+    public ListViewProjectAdapter(@NonNull Context context, int resource, Fragment fragment) {
+        super(context, resource);
+        currentFragment = fragment;
     }
 
 
@@ -101,49 +108,72 @@ public class ListViewProjectAdapter extends ArrayAdapter {
                 final String project_id = item.getProject_id();
 
 
+                Toast.makeText(getContext(), parent.getContext()+"", Toast.LENGTH_SHORT).show();
+
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 builder.setTitle("프로젝트 삭제");
                 builder.setMessage("프로젝트를 삭제하시겠습니까?");
                 builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                // 현재 로그인 사용자와 PM_ID가 같은 지 확인.
-                                if(currentId.equals(pm_id)){
-                                    db.collection("project_list").document(project_id)
-                                        .delete()
-                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+
+                                // 지원프로젝트 목록에서 삭제할 때는 단순히 apply에서만 삭제한다.
+                                if(currentFragment instanceof FragmentHome){
+                                    // 북마크 목록에서도 제거해줘야함. (안그러면 에러발생)
+                                    Map<String, Object> updates = new HashMap<>();
+                                    updates.put(project_id, FieldValue.delete());
+
+                                    db.collection("apply").document(currentId)
+                                        .update(updates)
+                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
-                                            public void onSuccess(Void aVoid) {
-                                                Log.d("delete", "DocumentSnapshot successfully deleted!");
+                                            public void onComplete(@NonNull Task<Void> task) {
                                                 listViewItemList.remove(item);
                                                 notifyDataSetChanged();
-
-
-                                                // 북마크 목록에서도 제거해줘야함. (안그러면 에러발생)
-                                                Map<String, Object> updates = new HashMap<>();
-                                                updates.put(project_id, FieldValue.delete());
-
-                                                db.collection("bookmark").document(currentId)
-                                                    .update(updates)
-                                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                        @Override
-                                                        public void onComplete(@NonNull Task<Void> task) {
-                                                            Log.d("delete", "DocumentSnapshot successfully deleted!");
-                                                        }
-                                                    });
-                                            }
-                                        })
-                                        .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                Log.w("delete", "Error deleting document", e);
+                                                Log.d("delete", "DocumentSnapshot successfully deleted!");
                                             }
                                         });
 
+                                } else{
+                                    // 현재 로그인 사용자와 PM_ID가 같은 지 확인. (그 외 화면에서는 진짜 프로젝트 리스트를 삭제함.)
+                                    if(currentId.equals(pm_id)){
+                                        db.collection("project_list").document(project_id)
+                                            .delete()
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    Log.d("delete", "DocumentSnapshot successfully deleted!");
+                                                    listViewItemList.remove(item);
+                                                    notifyDataSetChanged();
 
 
-                                }else{
-                                    Toast.makeText(getContext(),"프로젝트 주인이 아닙니다!(삭제불가)",Toast.LENGTH_LONG).show();
+                                                    // 북마크 목록에서도 제거해줘야함. (안그러면 에러발생)
+                                                    Map<String, Object> updates = new HashMap<>();
+                                                    updates.put(project_id, FieldValue.delete());
+
+                                                    db.collection("bookmark").document(currentId)
+                                                        .update(updates)
+                                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<Void> task) {
+                                                                Log.d("delete", "DocumentSnapshot successfully deleted!");
+                                                            }
+                                                        });
+                                                }
+                                            })
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Log.w("delete", "Error deleting document", e);
+                                                }
+                                            });
+
+
+
+                                    }else{
+                                        Toast.makeText(getContext(),"프로젝트 주인이 아닙니다!(삭제불가)",Toast.LENGTH_LONG).show();
+                                    }
+
                                 }
                             }
                         });

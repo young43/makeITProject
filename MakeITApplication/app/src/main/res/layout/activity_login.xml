@@ -68,25 +68,29 @@
             android:layout_marginTop="10dp"/>
 
         <Button
+            android:id="@+id/btn_login"
             android:layout_width="280dp"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:text="Log in"
-            android:id="@+id/btn_login"
+            android:layout_gravity="center"
             android:layout_marginTop="10dp"
-            android:layout_gravity="center"/>
+            android:background="#000000"
+            android:text="Log in"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <Button
+            android:id="@+id/btn_join"
             android:layout_width="280dp"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:text="Sign up"
-            android:id="@+id/btn_join"
+            android:layout_gravity="center"
             android:layout_marginTop="10dp"
+            android:background="#6E6D6D"
             android:gravity="center"
-            android:layout_gravity="center"/>
+            android:text="Sign up"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
 
     </LinearLayout>
