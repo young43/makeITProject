@@ -64,6 +64,7 @@ public class SignUpActivity extends AppCompatActivity {
                     selectUserInfoOnFirebase(id, new MyDataCallback() {
                         @Override
                         public void onCallback(int result) {
+                            // 이미 회원정보가 있을 경우 Toast 메시지 출력
                             if(result < 0){
                                 Toast.makeText(SignUpActivity.this, "이미 회원정보가 존재합니다.", Toast.LENGTH_SHORT).show();
                                 return;

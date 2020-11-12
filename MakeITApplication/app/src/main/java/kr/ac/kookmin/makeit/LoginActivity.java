@@ -98,7 +98,6 @@ public class LoginActivity extends AppCompatActivity {
                 //회원 가입 페이지로 이동
                 Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
                 startActivity(intent);
-                finish();
             }
         });
 

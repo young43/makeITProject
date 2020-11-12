@@ -1,6 +1,8 @@
 package kr.ac.kookmin.makeit;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,11 +12,13 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.SetOptions;
 
 import java.util.ArrayList;
@@ -83,7 +87,54 @@ public class ListViewProjectAdapter extends ArrayAdapter {
                 Intent intent = new Intent(context, ProjectInfoActivity.class);
                 intent.putExtra("projectInfo", map);
                 context.startActivity(intent);
+            }
+        });
 
+        layout.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                final String currentId = SaveSharedPreference.getUserName(getContext());
+                final ListItemProject item = listViewItemList.get(position);
+                final String pm_id = item.getPm_id();
+                final String project_id = item.getProject_id();
+
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("프로젝트 삭제");
+                builder.setMessage("프로젝트를 삭제하시겠습니까?");
+                builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // 현재 로그인 사용자와 PM_ID가 같은 지 확인.
+                                Toast.makeText(getContext(), pm_id+" "+currentId, Toast.LENGTH_SHORT).show();
+
+                                if(currentId.equals(pm_id)){
+                                    db.collection("project_list").document(project_id)
+                                        .delete()
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                Log.d("delete", "DocumentSnapshot successfully deleted!");
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Log.w("delete", "Error deleting document", e);
+                                            }
+                                        });
+
+                                }else{
+                                    Toast.makeText(getContext(),"프로젝트 주인이 아닙니다!(삭제불가)",Toast.LENGTH_LONG).show();
+                                }
+
+
+                            }
+                        });
+                builder.setNegativeButton("아니오", null);
+                builder.show();
+
+
+                return false;
             }
         });
 
