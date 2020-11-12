@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -23,6 +24,13 @@ import static kr.ac.kookmin.makeit.MainActivity.db;
 public class LoginActivity extends AppCompatActivity {
     int memberResult = 0;
     Button btnLogin, btnjoin;
+    EditText editId, editPw;
+
+    String loginId, loginPw;
+
+    public interface MyDataCallback {
+        void onCallback();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,31 +43,39 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin = (Button) findViewById(R.id.btn_login);
         btnjoin = (Button) findViewById(R.id.btn_join);
 
+        editId = (EditText) findViewById(R.id.idText);
+        editPw = (EditText) findViewById(R.id.passwordText);
+
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // 임시 id로그인
-                String tmpId = "seo5220";
-                String tmpPw = "ysy5220";
+                loginId = editId.getText().toString().trim();
+                loginPw = editPw.getText().toString();
 
                 // firebase에서 회원정보 조회
-                selectUserInfoOnFirebase(tmpId, tmpPw);
-                switch (memberResult){
-                    case -1:
-                        Toast.makeText(LoginActivity.this, "가입된 정보가 없습니다.", Toast.LENGTH_SHORT).show();
-                        break;
-                    case -2:
-                        Toast.makeText(LoginActivity.this, "비밀번호가 틀렸습니다.", Toast.LENGTH_SHORT).show();
-                        break;
-                    default:  // 로그인 성공
-                        SaveSharedPreference.setUserName(LoginActivity.this, tmpId);   // 자동 로그인 기능
+                selectUserInfoOnFirebase(loginId, loginPw, new MyDataCallback() {
+                    @Override
+                    public void onCallback() {
+                        switch (memberResult){
+                            case -1:
+                                Toast.makeText(LoginActivity.this, "가입된 정보가 없습니다.", Toast.LENGTH_SHORT).show();
+                                break;
+                            case -2:
+                                Toast.makeText(LoginActivity.this, "비밀번호가 틀렸습니다.", Toast.LENGTH_SHORT).show();
+                                break;
+                            default:  // 로그인 성공
+                                SaveSharedPreference.setUserName(LoginActivity.this, loginId);   // 자동 로그인 기능
 
-                        // Main화면으로 Intent 전환
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                        startActivity(intent);
-                        finish();
-                }
+                                // Main화면으로 Intent 전환
+                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                startActivity(intent);
+                                finish();
+                        }
+                    }
+                });
+
 
             }
         });
@@ -77,7 +93,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-    public void selectUserInfoOnFirebase(final String id, final String pw){
+    public void selectUserInfoOnFirebase(final String id, final String pw, final MyDataCallback callback){
         // memberResult(-1): 가입정보가 없음
         // memberResult(-2): 아이디는 있으나, 비밀번호가 틀림.
 
@@ -90,14 +106,17 @@ public class LoginActivity extends AppCompatActivity {
             .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                    DocumentSnapshot data = task.getResult().getDocuments().get(0);
-                    UserInfo item = new UserInfo((HashMap) data.getData());
+                    memberResult = -1;
                     int length = task.getResult().size();
-                    memberResult = 1;
+                    if(length > 0){
+                        DocumentSnapshot data = task.getResult().getDocuments().get(0);
+                        UserInfo item = new UserInfo((HashMap) data.getData());
 
-                    if(length == 0) memberResult = -1;
-                    else if(!item.getPasswd().equals(pw)) memberResult = -2;
+                        if(item.getPasswd().equals(pw)) memberResult = 1;
+                        else memberResult = -2;
+                    }
 
+                    callback.onCallback();
                 }
             });
 
