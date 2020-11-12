@@ -1,10 +1,12 @@
 package kr.ac.kookmin.makeit;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,7 +14,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.SetOptions;
+
 import java.util.HashMap;
+import java.util.Map;
+
+import static kr.ac.kookmin.makeit.MainActivity.db;
 
 /**
  * @file ProjectInfoActivity
@@ -61,7 +70,33 @@ public class ProjectInfoActivity extends AppCompatActivity {
         btnJoin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // 메일 관련 내용
+                // Firebase 지원 collection에 추가
+                String id = SaveSharedPreference.getUserName(ProjectInfoActivity.this);
+                String project_id = (String)data.get("project_id");
+
+                Map<String, Object> data = new HashMap<>();
+                data.put("id", id);
+                data.put(project_id, true);
+
+                // 찜 목록 데이터 업데이트
+                db.collection("apply").document(id)
+                        .set(data, SetOptions.merge())  // merge옵션으로 update 및 추가 가능
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.e("apply", "Success update data on firebase");
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w("apply", "Error update data", e);
+                            }
+                        });
+
+
+
+                // 자동으로 메일 연동
                 String receiver = (String)data.get("email");
                 String title = (String)data.get("title") + " 지원합니다.";
                 String text = "이력서 내용";     // 이력서는 나중에 파이어베이스에서 데이터 조회하는 것으로 설정.
