@@ -77,7 +77,7 @@ public class FragmentHome extends Fragment {
         btnResume.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), Resume.class);
+                Intent intent = new Intent(getContext(), ResumeActivity.class);
                 startActivity(intent);
             }
         });
