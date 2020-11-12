@@ -1,5 +1,6 @@
 package kr.ac.kookmin.makeit;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -58,12 +59,23 @@ public class LoginActivity extends AppCompatActivity {
                 selectUserInfoOnFirebase(loginId, loginPw, new MyDataCallback() {
                     @Override
                     public void onCallback() {
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                        AlertDialog alertDialog;
+
+
                         switch (memberResult){
                             case -1:
-                                Toast.makeText(LoginActivity.this, "가입된 정보가 없습니다.", Toast.LENGTH_SHORT).show();
+                                builder.setMessage("가입된 정보가 없습니다.");
+                                alertDialog = builder.create();
+                                alertDialog.show();
+                                // Toast.makeText(LoginActivity.this, "가입된 정보가 없습니다.", Toast.LENGTH_SHORT).show();
                                 break;
                             case -2:
-                                Toast.makeText(LoginActivity.this, "비밀번호가 틀렸습니다.", Toast.LENGTH_SHORT).show();
+                                builder.setMessage("비밀번호가 틀렸습니다.");
+                                alertDialog = builder.create();
+                                alertDialog.show();
+                                // Toast.makeText(LoginActivity.this, "비밀번호가 틀렸습니다.", Toast.LENGTH_SHORT).show();
                                 break;
                             default:  // 로그인 성공
                                 SaveSharedPreference.setUserName(LoginActivity.this, loginId);   // 자동 로그인 기능
