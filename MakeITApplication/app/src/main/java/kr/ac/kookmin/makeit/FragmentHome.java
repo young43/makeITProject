@@ -72,6 +72,16 @@ public class FragmentHome extends Fragment {
             }
         });
 
+        //이력서 등록화면으로 전환하기
+        Button btnResume = (Button) rootView.findViewById(R.id.btn_resume);
+        btnResume.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), Resume.class);
+                startActivity(intent);
+            }
+        });
+
         return rootView;
     }
 }
