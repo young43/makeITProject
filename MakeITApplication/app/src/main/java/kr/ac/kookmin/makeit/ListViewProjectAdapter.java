@@ -107,10 +107,6 @@ public class ListViewProjectAdapter extends ArrayAdapter {
                 final String pm_id = item.getPm_id();
                 final String project_id = item.getProject_id();
 
-
-                Toast.makeText(getContext(), parent.getContext()+"", Toast.LENGTH_SHORT).show();
-
-
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 builder.setTitle("프로젝트 삭제");
                 builder.setMessage("프로젝트를 삭제하시겠습니까?");
@@ -198,6 +194,9 @@ public class ListViewProjectAdapter extends ArrayAdapter {
 
 
         btnBookmark = (Button) convertView.findViewById(R.id.btn_bookmark);
+        // Home화면의 경우, 찜하기 버튼 보이지 않게 설정함.
+        if(currentFragment instanceof FragmentHome)
+            btnBookmark.setVisibility(View.GONE);
 
         // 찜 db에 넣을 데이터 형성
         id = SaveSharedPreference.getUserName(getContext());
