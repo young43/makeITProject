@@ -76,11 +76,12 @@ public class MainActivity extends AppCompatActivity {
         frag2 = new FragmentNotice();
         frag3 = new FragmentMypage();
 
-        // 첫 화면은 FragmentHome으로 설정.
-        // setFrag에 주는 정수에 따라서 프래그먼트 트랜지션이 이루어짐.
+
         setFrag(0, null); // 첫 프래그먼트 화면 지정
     }
 
+    // 첫 화면은 FragmentHome으로 설정.
+    // setFrag에 주는 정수에 따라서 프래그먼트 트랜지션이 이루어짐.
     public void setFrag(int n, Fragment frag) {
         fm = getSupportFragmentManager();
         ft = fm.beginTransaction();

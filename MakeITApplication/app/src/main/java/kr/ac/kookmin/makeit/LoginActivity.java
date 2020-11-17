@@ -110,14 +110,12 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-
+    // Firebase 연동
+    // member 컬렉션을 조회한다.
+    // Collection(=DB) -> Document(=row)으로 구성되어있으며, column은 getData로 Map형태로 가져올 수 있다.
     public void selectUserInfoOnFirebase(final String id, final String pw, final MyDataCallback callback){
         // memberResult(-1): 가입정보가 없음
         // memberResult(-2): 아이디는 있으나, 비밀번호가 틀림.
-
-        // Firebase 연동
-        // 회원정보 리스트를 긁어서 보여준다.
-        // Collection(=DB) -> Document(=row)으로 구성되어있으며, column은 getData로 Map형태로 가져올 수 있다.
         CollectionReference collRef = db.collection("member");
         Query query = collRef.whereEqualTo("id", id);
         query.get()

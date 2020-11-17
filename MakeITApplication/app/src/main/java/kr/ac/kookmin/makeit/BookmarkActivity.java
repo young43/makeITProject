@@ -30,6 +30,7 @@ public class BookmarkActivity extends AppCompatActivity {
     private ListViewBookmarkAdapter adapter;
     ListView listview;
 
+    // 사용자 정의 callback 함수 (Firebase 데이터가 다 조회되었는지 check하는 역할)
     public interface MyDataCallback {
         void onCallback();
     }
@@ -49,11 +50,10 @@ public class BookmarkActivity extends AppCompatActivity {
         selectBookmartOnFirebase();
     }
 
-
+    // Firebase 연동
+    // bookmark 컬렉션을 조회함.
+    // Collection(=DB) -> Document(=row)으로 구성되어있으며, column은 getData로 Map형태로 가져올 수 있다.
     public void selectBookmartOnFirebase(){
-        // Firebase 연동
-        // 프로젝트 리스트를 긁어서 보여준다.
-        // Collection(=DB) -> Document(=row)으로 구성되어있으며, column은 getData로 Map형태로 가져올 수 있다.
         String id = SaveSharedPreference.getUserName(this);
         final DocumentReference docRef = db.collection("bookmark").document(id);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -94,6 +94,8 @@ public class BookmarkActivity extends AppCompatActivity {
         });
     }
 
+    // Firebase 연동
+    // project_list 컬렉션을 조회하고 내부 callback함수를 호출하여 Firebase 데이터 조회가 완료됨을 알림.
     public void selectProjectlistOnFirebase(String key, final MyDataCallback callback){
         db.collection("project_list").document(key)
             .get()
@@ -116,6 +118,7 @@ public class BookmarkActivity extends AppCompatActivity {
     }
 
 
+    // listview 업데이트
     public void updateListView() {
         adapter.notifyDataSetChanged();
         listview.setAdapter(adapter);

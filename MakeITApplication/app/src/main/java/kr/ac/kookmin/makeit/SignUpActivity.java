@@ -41,6 +41,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     String id, pw, email, phone;
 
+    // 사용자 정의 callback 함수 (Firebase 데이터가 다 조회되었는지 check하는 역할)
     public interface MyDataCallback {
         void onCallback(int result);
     }
@@ -124,11 +125,10 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
 
-
+    // Firebase 연동
+    // member 컬렉션을 조회한다.
+    // 데이터가 다 조회되면 callback함수를 호출한다. 이때 회원정보가 없으면 -1을 리턴하게 된다.
     public void selectUserInfoOnFirebase(final String id, final MyDataCallback callback){
-        // Firebase 연동
-        // 회원정보 리스트를 긁어서 보여준다.
-        // Collection(=DB) -> Document(=row)으로 구성되어있으며, column은 getData로 Map형태로 가져올 수 있다.
         CollectionReference collRef = db.collection("member");
         Query query = collRef.whereEqualTo("id", id);
         query.get()

@@ -51,6 +51,11 @@ public class FragmentHome extends Fragment {
         // Required empty public constructor
     }
 
+    // 사용자 정의 callback 함수 (Firebase 데이터가 다 조회되었는지 check하는 역할)
+    public interface MyDataCallback{
+        void onCallback();
+    }
+
 
     // TODO: Rename and change types and number of parameters
     public static FragmentHome newInstance(String param1, String param2) {
@@ -112,11 +117,8 @@ public class FragmentHome extends Fragment {
         return rootView;
     }
 
-    /////////
-    public interface MyDataCallback{
-        void onCallback();
-    }
-
+    // Firebase 연동
+    // apply 컬렉션 조회하고, 해당 프로젝트는 selectProjectlistOnFirebase 함수를 통해 다시 재조회함.
     public void selectApplyOnFirebase(){
         String id = SaveSharedPreference.getUserName(getContext());
         final DocumentReference docRef = db.collection("apply").document(id);
@@ -153,6 +155,8 @@ public class FragmentHome extends Fragment {
 
     }
 
+    // Firebase 연동
+    // project_list 컬렉션을 조회하고 내부 callback함수를 호출하여 Firebase 데이터 조회가 완료됨을 알림.
     public void selectProjectlistOnFirebase(String key, final MyDataCallback callback){
         db.collection("project_list").document(key)
             .get()

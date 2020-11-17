@@ -39,7 +39,7 @@ public class ResumeActivity extends AppCompatActivity {
                 editInYear1, editInYear2, editInYear3, editOutYear1, editOutYear2, editOutYear3,
                 editInMonth1, editInMonth2, editInMonth3, editOutMonth1, editOutMonth2, editOutMonth3;
 
-
+    // 사용자 정의 callback 함수 (Firebase 데이터가 다 조회되었는지 check하는 역할)
     public interface MyDataCallback {
         void onCallback(boolean exists, ResumeInfo info);
     }
@@ -197,11 +197,11 @@ public class ResumeActivity extends AppCompatActivity {
         });
     }
 
-
+    // Firebase 연동
+    // resume 컬렉션을 조회하여 이력서 데이터를 가져옴.
+    // 내부 callback 함수를 호출하여 데이터 조회가 완료됨을 알림.
     public void selectQueryOnFirebase(final MyDataCallback callback){
-        // Firebase 연동
-        // 프로젝트 리스트를 긁어서 보여준다.
-        // Collection(=DB) -> Document(=row)으로 구성되어있으며, column은 getData로 Map형태로 가져올 수 있다.
+        // 현재 로그인된 ID 가져옴
         String id = SaveSharedPreference.getUserName(ResumeActivity.this);
 
         db.collection("resume").document(id)
