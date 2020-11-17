@@ -35,11 +35,11 @@
 
 ## 2. 팀 정보
 
-| 이름   | 소속       | 역할                              | github                         |
-| ------ | ---------- | --------------------------------- | ------------------------------ |
-| 김지홍 | 국민대학교 | UI 구성 및 로그인 기능 개발       | https://github.com/kimjihong9  |
-| 김찬미 | 국민대학교 | 프론트엔드 개발 및 세션 기능 개발 | https://github.com/kimchanmiii |
-| 윤서영 | 국민대학교 | Firebase 연동 및 백엔드 개발      | https://github.com/young43     |
+| 이름   | 소속       | 역할                                | github                         |
+| ------ | ---------- | ----------------------------------- | ------------------------------ |
+| 김지홍 | 국민대학교 | UI 구성 및 로그인 기능 개발         | https://github.com/kimjihong9  |
+| 김찬미 | 국민대학교 | 프론트엔드 개발 및 이력서 기능 개발 | https://github.com/kimchanmiii |
+| 윤서영 | 국민대학교 | Firebase 연동 및 Bookmark 기능 개발 | https://github.com/young43     |
 
 <br>
 
