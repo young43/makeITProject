@@ -100,13 +100,16 @@
   - 제목, 지역, 인원, 내용, 담당 연락처 내용들을 입력하고 프로젝트 등록이 가능합니다. 
   - 등록한 프로젝트는 [공고] 탭에서 확인 가능하며, 프로젝트 제목 및 내용으로 검색이 가능합니다. 
   
-  <img src="./img/project_show.jpg?raw=true" alt="두번째 화면" width=500/>
+
+<img src="./img/project_show.jpg?raw=true" alt="두번째 화면" width=500/>
+
 - 프로젝트 지원
   - 프로젝트 목록을 클릭하게 되면, 관련 프로젝트 정보가 화면에 표시됩니다.
   - 관심이 있는 프로젝트에 지원가능하며, 지원할 경우 이메일로 연동되어 자신의 이력서를 자동으로 불러오게 됩니다. 
   - [HOME] 탭 '진행 중인 프로젝트'에서 본인이 지원한 프로젝트를 확인할 수 있습니다.
   - 해당 프로젝트를 롱 클릭 시  삭제가 가능합니다. 
   
-  <img src="./img/project_resume.jpg?raw=true" alt="두번째 화면" width=500/>
+
+<img src="./img/project_resume.jpg?raw=true" alt="두번째 화면" width=500/>
 
 
