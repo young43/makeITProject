@@ -17,6 +17,13 @@ import java.util.HashMap;
 
 import static kr.ac.kookmin.makeit.MainActivity.db;
 
+/**
+ * @file BookmarkActivity
+ * @desc 찜한 프로젝트 목록을 보기위한 Activity
+ * @auther 윤서영(20191633)
+ * @date 2020-11-02
+ */
+
 public class BookmarkActivity extends AppCompatActivity {
 
     private ArrayList<ListItemProject> arrayData = new ArrayList<>();

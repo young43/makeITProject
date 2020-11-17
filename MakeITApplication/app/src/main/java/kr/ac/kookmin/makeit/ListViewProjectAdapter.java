@@ -34,7 +34,7 @@ import static kr.ac.kookmin.makeit.MainActivity.db;
 /**
  * @file ListViewProjectAdapter
  * @desc 프로젝트 리스트 화면(FragmentNotice)에서 ListView에 연결하기위한 Adapter클래스
- * @auther 윤서영(20191633)
+ * @auther 김지홍(20191572), 윤서영(20191633)
  * @date 2020-11-01
  */
 

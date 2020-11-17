@@ -9,6 +9,7 @@ import java.util.Map;
  * @auther 김찬미(20191574)
  * @date 2020-11-12
  */
+
 public class ResumeInfo {
     private String resume_id;
     private String resume_name;

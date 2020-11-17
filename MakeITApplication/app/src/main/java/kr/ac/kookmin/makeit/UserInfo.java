@@ -6,9 +6,10 @@ import java.util.Map;
 /**
  * @file UserInfo
  * @desc 회원정보 클래스
- * @auther 윤서영(20191633)
+ * @auther 김지홍(20191572)
  * @date 2020-11-02
  */
+
 public class UserInfo {
     private String id;
     private String passwd;

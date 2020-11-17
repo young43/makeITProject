@@ -22,6 +22,13 @@ import java.util.HashMap;
 
 import static kr.ac.kookmin.makeit.MainActivity.db;
 
+/**
+ * @file LoginActivity
+ * @desc 로그인 기능을 수행하는 Activity
+ * @auther 김지홍(20191572)
+ * @date 2020-11-12
+ */
+
 public class LoginActivity extends AppCompatActivity {
     int memberResult = 0;
     Button btnLogin, btnjoin;

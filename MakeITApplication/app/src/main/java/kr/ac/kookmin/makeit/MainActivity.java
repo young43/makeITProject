@@ -15,8 +15,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 /**
  * @file MainActivity
- * @desc 로그인 후 보여지는 메인 화면(Activity)
- * @auther 윤서영(20191633)
+ * @desc 로그인 여부에 따라 보여지는 첫 화면을 결정하는 Activity
+ * @auther 김찬미(20191574)
  * @date 2020-11-01
  */
 

@@ -8,7 +8,7 @@ import android.preference.PreferenceManager;
 /**
  * @file SaveSharedPreference
  * @desc 자동 로그인 및 로그인 유지를 위한 클래스
- * @auther 윤서영(20191633)
+ * @auther 김지홍(20191572), 김찬미(20191574)
  * @date 2020-11-02
  */
 public class SaveSharedPreference {

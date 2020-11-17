@@ -24,9 +24,10 @@ import java.util.HashMap;
 import static kr.ac.kookmin.makeit.MainActivity.db;
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link FragmentHome#newInstance} factory method to
- * create an instance of this fragment.
+ * @file FragmentHome
+ * @desc 회원정보 및 찜버튼, 지원프로젝트 목록을 볼 수 있는 화면(프래그먼트)
+ * @auther 김지홍(20191572), 김찬미(20191574)
+ * @date 2020-11-01
  */
 public class FragmentHome extends Fragment {
 

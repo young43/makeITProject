@@ -10,9 +10,10 @@ import android.widget.Button;
 import androidx.fragment.app.Fragment;
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link FragmentMypage#newInstance} factory method to
- * create an instance of this fragment.
+ * @file FragmentMypage
+ * @desc 로그아웃 버튼이 존재하는 화면(프래그먼트)
+ * @auther 김찬미(20191574)
+ * @date 2020-11-01
  */
 public class FragmentMypage extends Fragment {
 

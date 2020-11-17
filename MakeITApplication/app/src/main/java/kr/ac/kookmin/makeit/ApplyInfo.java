@@ -3,6 +3,13 @@ package kr.ac.kookmin.makeit;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @file ApplyInfo
+ * @desc 프로젝트 지원정보 관련 클래스
+ * @auther 김지홍(20191572)
+ * @date 2020-11-12
+ */
+
 public class ApplyInfo {
     private String id;
     private String project_id;
