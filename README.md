@@ -68,7 +68,7 @@
 - 한번 로그인하면 세션이 유지되어 자동으로 로그인이 됩니다.
 - 로그인 후 [MY] 탭에서 '로그아웃' 버튼 클릭시, 로그아웃이 가능합니다.
 
-<img src="./img/login_join.jpg?raw=true" alt="두번째 화면" width=800/>
+<img src="./img/login_join.jpg?raw=true" alt="두번째 화면" width=500/>
 
 <br>
 
@@ -79,7 +79,7 @@
 - 경력은 최대 3개까지 입력할 수 있으며, 입사/퇴사 날짜를 입력할 수 있습니다. 
 - 이력서를 등록하면 Firebase DB에 내용이 저장되고, 다시 이력서를 등록하려고 하면 이전에 저장했던 내용을 불러오게 됩니다.
 
-<img src="./img/resume.jpg?raw=true" alt="두번째 화면" width=800/>
+<img src="./img/resume.jpg?raw=true" alt="두번째 화면" width=500/>
 
 <br>
 
@@ -89,7 +89,7 @@
 - [HOME] 탭에서 '찜 목록' 버튼을 누르면 찜해놨던 프로젝트 리스트를 볼 수 있습니다.
 - 찜 목록에서 삭제를 원하면 다시 '하트' 버튼을 클릭하면 됩니다. 
 
-<img src="./img/bookmark.jpg?raw=true" alt="두번째 화면" width=800/>
+<img src="./img/bookmark.jpg?raw=true" alt="두번째 화면" width=500/>
 
 <br>
 
@@ -100,13 +100,13 @@
   - 제목, 지역, 인원, 내용, 담당 연락처 내용들을 입력하고 프로젝트 등록이 가능합니다. 
   - 등록한 프로젝트는 [공고] 탭에서 확인 가능하며, 프로젝트 제목 및 내용으로 검색이 가능합니다. 
   
-  <img src="./img/project_show.jpg?raw=true" alt="두번째 화면" width=800/>
+  <img src="./img/project_show.jpg?raw=true" alt="두번째 화면" width=500/>
 - 프로젝트 지원
   - 프로젝트 목록을 클릭하게 되면, 관련 프로젝트 정보가 화면에 표시됩니다.
   - 관심이 있는 프로젝트에 지원가능하며, 지원할 경우 이메일로 연동되어 자신의 이력서를 자동으로 불러오게 됩니다. 
   - [HOME] 탭 '진행 중인 프로젝트'에서 본인이 지원한 프로젝트를 확인할 수 있습니다.
   - 해당 프로젝트를 롱 클릭 시  삭제가 가능합니다. 
   
-  <img src="./img/project_resume.jpg?raw=true" alt="두번째 화면" width=800/>
+  <img src="./img/project_resume.jpg?raw=true" alt="두번째 화면" width=500/>
 
 
