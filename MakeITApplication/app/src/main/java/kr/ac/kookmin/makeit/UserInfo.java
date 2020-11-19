@@ -11,6 +11,7 @@ import java.util.Map;
  */
 
 public class UserInfo {
+    // 회원 정보
     private String id;
     private String passwd;
     private String email;
@@ -32,6 +33,7 @@ public class UserInfo {
         this.phone = (String) map.get("phone");
     }
 
+    // firebase에 데이터 전달하기 위하여, 데이터를 map형태로 변환
     public Map<String, Object> toMap(){
         HashMap<String, Object> map = new HashMap<>();
         map.put("id", id);

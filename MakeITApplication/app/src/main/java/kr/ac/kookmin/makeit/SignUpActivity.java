@@ -63,7 +63,6 @@ public class SignUpActivity extends AppCompatActivity {
 
                 //회원가입 정보를 모두 입력했을 경우만 등록이 가능(정보를 모두 입력한 경우->EditText 길이가 5이상인 경우)
                 if(emailText.getText().toString().length()>4 && idText.getText().toString().length()>4 && passwordText.getText().toString().length()>4){
-                    // Toast.makeText(SignUpActivity.this, "회원 가입이 완료되었습니다😀", Toast.LENGTH_SHORT).show();
                     id = idText.getText().toString().trim();
                     pw = passwordText.getText().toString();
                     email = emailText.getText().toString().trim();
@@ -81,9 +80,11 @@ public class SignUpActivity extends AppCompatActivity {
 
                             //(String id, String passwd, String email, String phone)
                             UserInfo member = new UserInfo(id, pw, email, phone);
+
+                            // firebase에 데이터를 전달하기 위해, 데이터 map형태로 변환
                             HashMap<String, Object> data = (HashMap) member.toMap();
 
-                            // 파이어베이스 데이터(row) 추가
+                            // firebase에 데이터(row) 추가
                             db.collection("member")
                                     .add(data)
                                     .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -127,7 +128,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     // Firebase 연동
     // member 컬렉션을 조회한다.
-    // 데이터가 다 조회되면 callback함수를 호출한다. 이때 회원정보가 없으면 -1을 리턴하게 된다.
+    // 데이터가 다 조회되면 callback함수를 호출한다. 이때 회원정보가 없으면 0을 리턴하게 된다.
     public void selectUserInfoOnFirebase(final String id, final MyDataCallback callback){
         CollectionReference collRef = db.collection("member");
         Query query = collRef.whereEqualTo("id", id);
@@ -136,10 +137,10 @@ public class SignUpActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     int flag = 0;
-                    if(task.getResult().size() > 0)
+                    if(task.getResult().size() > 0)   // 이미 회원정보가 존재할 때
                         flag = -1;
 
-                    callback.onCallback(flag);
+                    callback.onCallback(flag); // firebase 조회한 다음, 알맞은 flag값 전달
                 }
             });
 

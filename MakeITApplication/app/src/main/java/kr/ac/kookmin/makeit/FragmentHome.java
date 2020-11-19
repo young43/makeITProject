@@ -41,8 +41,7 @@ public class FragmentHome extends Fragment {
     private String mParam2;
 
 
-    //////진행중인 프로젝트 목록 보여주기
-    private ArrayList<ListItemProject> arrayData = new ArrayList<>();
+    private ArrayList<ListItemProject> arrayData = new ArrayList<>();  // 진행중인(지원한) 프로젝트 목록 arraylist
     private ListViewProjectAdapter adapter;
     ListView listView;
 
@@ -98,7 +97,7 @@ public class FragmentHome extends Fragment {
             }
         });
 
-        //이력서 등록화면으로 전환하기
+        // 이력서 등록화면으로 전환하기
         Button btnResume = (Button) rootView.findViewById(R.id.btn_resume);
         btnResume.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,7 +107,7 @@ public class FragmentHome extends Fragment {
             }
         });
 
-        //////진행중인 프로젝트 목록 보여주기
+        // 진행중인 프로젝트 목록 보여주기
         adapter = new ListViewProjectAdapter(getContext(), android.R.layout.simple_list_item_multiple_choice, this);
         listView = (ListView) rootView.findViewById(R.id.list_myproject);
         listView.setAdapter(adapter);
@@ -158,6 +157,7 @@ public class FragmentHome extends Fragment {
     // Firebase 연동
     // project_list 컬렉션을 조회하고 내부 callback함수를 호출하여 Firebase 데이터 조회가 완료됨을 알림.
     public void selectProjectlistOnFirebase(String key, final MyDataCallback callback){
+        // project_list 컬렉션에서 apply 컬렉션에 존재하는 프로젝트 불러오기
         db.collection("project_list").document(key)
             .get()
             .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -165,20 +165,18 @@ public class FragmentHome extends Fragment {
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                     if(task.isSuccessful()) {
                         DocumentSnapshot document = task.getResult();
-                        ListItemProject item = new ListItemProject((HashMap)document.getData());
-                        item.setProject_id(document.getId());
-                        // item.setSelected(true);
+                        ListItemProject item = new ListItemProject((HashMap)document.getData()); // 지원한 프로젝트 객체 생성
+                        item.setProject_id(document.getId());                                    // 해당 프로젝트 id값 project_id값으로 설정
 
-                        arrayData.add(item);
-                        // Toast.makeText(BookmarkActivity.this, item.getTitle(), Toast.LENGTH_SHORT).show();
+                        arrayData.add(item); // 진행중인(지원한) 프로젝트 목록에 추가
                     }
 
-                    callback.onCallback();
+                    callback.onCallback(); // firebase project_list 조회하고 진행중인 프로젝트 목록 적용한 뒤, ListView 업데이트
                 }
             });
     }
 
-
+    // adapter 갱신하고 ListView에 설정
     public void updateListView(){
         adapter.notifyDataSetChanged();
         listView.setAdapter(adapter);
