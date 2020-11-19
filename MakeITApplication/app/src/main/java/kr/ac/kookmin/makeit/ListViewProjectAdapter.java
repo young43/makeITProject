@@ -21,9 +21,13 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
+import com.google.firebase.firestore.WriteBatch;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -115,7 +119,6 @@ public class ListViewProjectAdapter extends ArrayAdapter {
 
                                 // 지원프로젝트 목록에서 삭제할 때는 단순히 apply에서만 삭제한다.
                                 if(currentFragment instanceof FragmentHome){
-                                    // 북마크 목록에서도 제거해줘야함. (안그러면 에러발생)
                                     Map<String, Object> updates = new HashMap<>();
                                     updates.put(project_id, FieldValue.delete());
 
@@ -144,17 +147,37 @@ public class ListViewProjectAdapter extends ArrayAdapter {
 
 
                                                     // 북마크 목록에서도 제거해줘야함. (안그러면 에러발생)
-                                                    Map<String, Object> updates = new HashMap<>();
+                                                    final Map<String, Object> updates = new HashMap<>();
                                                     updates.put(project_id, FieldValue.delete());
 
-                                                    db.collection("bookmark").document(currentId)
-                                                        .update(updates)
-                                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                    // 북마크 일괄삭제
+                                                    db.collection("bookmark")
+                                                        .get()
+                                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                                             @Override
-                                                            public void onComplete(@NonNull Task<Void> task) {
-                                                                Log.d("delete", "DocumentSnapshot successfully deleted!");
+                                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                                if (task.isSuccessful()) {
+                                                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                                                        document.getReference().update(updates);
+                                                                    }
+                                                                }
                                                             }
                                                         });
+
+                                                    // 지원목록 일괄 삭제
+                                                    db.collection("apply")
+                                                            .get()
+                                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                                @Override
+                                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                                    if (task.isSuccessful()) {
+                                                                        for (QueryDocumentSnapshot document : task.getResult()) {
+                                                                            document.getReference().update(updates);
+                                                                        }
+                                                                    }
+                                                                }
+                                                            });
+
                                                 }
                                             })
                                             .addOnFailureListener(new OnFailureListener() {
