@@ -44,6 +44,7 @@ public class FragmentNotice extends Fragment {
 
     private ArrayList<ListItemProject> arrayData = new ArrayList<>();
 
+    // 사용자 정의 callback 함수 (Firebase 데이터가 다 조회되었는지 check하는 역할)
     public interface MyDataCallback {
         void onCallback();
     }
@@ -192,11 +193,10 @@ public class FragmentNotice extends Fragment {
         return rootView;
     }
 
+    // Firebase 연동
+    // 프로젝트 리스트를 긁어서 보여준다.
+    // Collection(=DB) -> Document(=row)으로 구성되어있으며, column은 getData로 Map형태로 가져올 수 있다.
     public void selectQueryOnFirebase(final MyDataCallback callback){
-        // Firebase 연동
-        // 프로젝트 리스트를 긁어서 보여준다.
-        // Collection(=DB) -> Document(=row)으로 구성되어있으며, column은 getData로 Map형태로 가져올 수 있다.
-
         CollectionReference collRef = db.collection("project_list");
         Query query = collRef.orderBy("upload_date", Query.Direction.DESCENDING);   // 내림차순 정렬(최신순으로 정렬한다)
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -229,7 +229,8 @@ public class FragmentNotice extends Fragment {
 
     }
 
-
+    // Firebase 연동
+    // 조회한 프로젝트 리스트를 바탕으로 bookmark 컬렉션을 조회하여 화면에 표시함.
     public void selectBookmarkOnFirebase() {
 
         for(int i=0; i<adapter.getCount(); i++){
@@ -237,9 +238,6 @@ public class FragmentNotice extends Fragment {
             final String project_id = item.getProject_id();
             final String id = SaveSharedPreference.getUserName(getContext());
 
-            // Firebase 연동
-            // 찜 리스트를 긁어서 보여준다.
-            // Collection(=DB) -> Document(=row)으로 구성되어있으며, column은 getData로 Map형태로 가져올 수 있다.
             DocumentReference docRef = db.collection("bookmark").document(id);
             docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
@@ -259,8 +257,6 @@ public class FragmentNotice extends Fragment {
                     } else {
                         Log.d("bookmark", "get failed with ", task.getException());
                     }
-
-
                 }
             });
 
@@ -269,6 +265,7 @@ public class FragmentNotice extends Fragment {
     }
 
 
+    // listview 업데이트
     public void updateListView() {
         adapter.notifyDataSetChanged();
         listview.setAdapter(adapter);

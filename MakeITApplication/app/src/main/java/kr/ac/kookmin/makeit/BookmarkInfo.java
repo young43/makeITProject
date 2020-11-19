@@ -5,7 +5,7 @@ import java.util.Map;
 
 /**
  * @file BookmarkInfo
- * @desc 찜 목록 클래스
+ * @desc 찜 목록 item 클래스
  * @auther 윤서영(20191633)
  * @date 2020-11-02
  */

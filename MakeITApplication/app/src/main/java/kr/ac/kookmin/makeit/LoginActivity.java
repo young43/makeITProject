@@ -22,6 +22,13 @@ import java.util.HashMap;
 
 import static kr.ac.kookmin.makeit.MainActivity.db;
 
+/**
+ * @file LoginActivity
+ * @desc 로그인 기능을 수행하는 Activity
+ * @auther 김지홍(20191572)
+ * @date 2020-11-12
+ */
+
 public class LoginActivity extends AppCompatActivity {
     int memberResult = 0;
     Button btnLogin, btnjoin;
@@ -29,6 +36,7 @@ public class LoginActivity extends AppCompatActivity {
 
     String loginId, loginPw;
 
+    // 사용자 정의 callback 함수 (Firebase 데이터가 다 조회되었는지 check하는 역할)
     public interface MyDataCallback {
         void onCallback();
     }
@@ -37,9 +45,6 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-        // 자동 로그인 기능
-        // SaveSharedPreference.setUserName(this, editId.getText().toString());
 
         btnLogin = (Button) findViewById(R.id.btn_login);
         btnjoin = (Button) findViewById(R.id.btn_join);
@@ -51,7 +56,8 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // 임시 id로그인
+
+                // 사용자가 입력한 아이디와 비밀번화 받아오기
                 loginId = editId.getText().toString().trim();
                 loginPw = editPw.getText().toString();
 
@@ -65,19 +71,17 @@ public class LoginActivity extends AppCompatActivity {
 
 
                         switch (memberResult){
-                            case -1:
+                            case -1: // 회원 가입이 필요한 경우
                                 builder.setMessage("가입된 정보가 없습니다.");
                                 alertDialog = builder.create();
                                 alertDialog.show();
-                                // Toast.makeText(LoginActivity.this, "가입된 정보가 없습니다.", Toast.LENGTH_SHORT).show();
                                 break;
-                            case -2:
+                            case -2: // 이미 존재하는 회원인 경우
                                 builder.setMessage("비밀번호가 틀렸습니다.");
                                 alertDialog = builder.create();
                                 alertDialog.show();
-                                // Toast.makeText(LoginActivity.this, "비밀번호가 틀렸습니다.", Toast.LENGTH_SHORT).show();
                                 break;
-                            default:  // 로그인 성공
+                            default:  // 로그인 성공한 경우
                                 SaveSharedPreference.setUserName(LoginActivity.this, loginId);   // 자동 로그인 기능
 
                                 // Main화면으로 Intent 전환
@@ -103,14 +107,13 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-
+    // Firebase 연동
+    // member 컬렉션을 조회한다.
+    // Collection(=DB) -> Document(=row)으로 구성되어있으며, column은 getData로 Map형태로 가져올 수 있다.
     public void selectUserInfoOnFirebase(final String id, final String pw, final MyDataCallback callback){
+
         // memberResult(-1): 가입정보가 없음
         // memberResult(-2): 아이디는 있으나, 비밀번호가 틀림.
-
-        // Firebase 연동
-        // 회원정보 리스트를 긁어서 보여준다.
-        // Collection(=DB) -> Document(=row)으로 구성되어있으며, column은 getData로 Map형태로 가져올 수 있다.
         CollectionReference collRef = db.collection("member");
         Query query = collRef.whereEqualTo("id", id);
         query.get()
@@ -119,7 +122,7 @@ public class LoginActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     memberResult = -1;
                     int length = task.getResult().size();
-                    if(length > 0){
+                    if(length > 0){  // 회원가입이 되어 있을 때
                         DocumentSnapshot data = task.getResult().getDocuments().get(0);
                         UserInfo item = new UserInfo((HashMap) data.getData());
 
@@ -127,7 +130,7 @@ public class LoginActivity extends AppCompatActivity {
                         else memberResult = -2;
                     }
 
-                    callback.onCallback();
+                    callback.onCallback();  //firebase 조회한 다음, 알맞은 memberResult값 사용
                 }
             });
 

@@ -8,7 +8,7 @@ import android.preference.PreferenceManager;
 /**
  * @file SaveSharedPreference
  * @desc 자동 로그인 및 로그인 유지를 위한 클래스
- * @auther 윤서영(20191633)
+ * @auther 김지홍(20191572), 김찬미(20191574)
  * @date 2020-11-02
  */
 public class SaveSharedPreference {
@@ -22,7 +22,7 @@ public class SaveSharedPreference {
     public static void setUserName(Context ctx, String userName) {
         SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
         editor.putString(PREF_USER_NAME, userName);
-        editor.commit();
+        editor.commit(); // 동기적으로 값 저장하고 결과 리턴
     }
 
     // 저장된 정보 가져오기
@@ -30,11 +30,11 @@ public class SaveSharedPreference {
         return getSharedPreferences(ctx).getString(PREF_USER_NAME, "");
     }
 
-    // 로그아웃
+    // 로그아웃, 자동 로그인 기능 비활성화
     public static void clearUserName(Context ctx) {
         SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
         editor.clear();
-        editor.commit();
+        editor.commit(); // 동기적으로 값 저장하고 결과 리턴
     }
 
 }

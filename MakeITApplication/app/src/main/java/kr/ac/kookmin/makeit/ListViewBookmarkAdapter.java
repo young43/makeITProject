@@ -153,16 +153,12 @@ public class ListViewBookmarkAdapter extends ArrayAdapter {
     }
 
 
-    public void addAll(ArrayList<ListItemProject> items) {
-        listViewItemList.addAll(items);
-        // listViewItemList.addAll(Arrays.asList(items));
-        // super.addAll(items);
-    }
-
+    // 파라미터 arraylist를 깊은복사하여 listViewItemList 할당함.
     public void setAll(ArrayList<ListItemProject> items){
         listViewItemList = (ArrayList<ListItemProject>)items.clone();   // 깊은 복사
     }
 
+    // 해당 위치에 있는 아이템을 arraylist에서 삭제
     public void removeItem(int position){
         Log.e("testActivity", listViewItemList.get(position).getTitle());
         listViewItemList.remove(position);
