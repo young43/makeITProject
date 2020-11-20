@@ -2,6 +2,8 @@
 
 안드로이드로 개발한 팀빌딩 플랫폼 <b>makeIT</b> 입니다.
 
+Github: https://github.com/young43/makeITProject
+
 <br>
 
 ## 목차
